@@ -31,7 +31,6 @@
             curl -X PUT \
               -H "content-type: application/json" \
               -H "Cookie: KuboardUsername=${{ inputs.username }}; KuboardAccessKey=${{ inputs.access-key }}" \
-              -H "${{ secrets.KUBOARD_AUTH }}" \
               -d '{"kind":"deployments","namespace":"${{ inputs.namespace }}","name":"${{ inputs.app-name }}", \
               "images":{"${{ inputs.image }}":"${{ inputs.image }}:${{ inputs.version }}"}}' \
               "${{ inputs.host }}/kuboard-api/cluster/${{ inputs.namespace }}/kind/CICDApi/${{ inputs.username }}/resource/updateImageTag"
