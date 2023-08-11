@@ -1,0 +1,37 @@
+  name: kuboard-cicd
+  description: Kuboard CICD
+  inputs:
+    host:
+      description: 域名
+      default: true
+    username:
+      description: 用户名
+      default: true
+    access-key:
+      description: 访问KEY
+      default: true
+    namespace:
+      description: 空间
+      required: true
+    app-name:
+      description: 应用名
+      required: true
+    image:
+      description: 镜像
+      required: true
+    version:
+      description: 版本
+      required: true
+  runs:
+    using: composite
+    steps:
+        - name: 部署
+          shell: bash
+          run: |
+            curl -X PUT \
+              -H "content-type: application/json" \
+              -H "Cookie: KuboardUsername=${{ inputs.username }}; KuboardAccessKey=${{ inputs.access-key }}" \
+              -H "${{ secrets.KUBOARD_AUTH }}" \
+              -d '{"kind":"deployments","namespace":"${{ inputs.namespace }}","name":"${{ inputs.app-name }}", \
+              "images":{"${{ inputs.image }}":"${{ inputs.image }}:${{ inputs.version }}"}}' \
+              "${{ inputs.host }}/kuboard-api/cluster/${{ inputs.namespace }}/kind/CICDApi/${{ inputs.username }}/resource/updateImageTag"
