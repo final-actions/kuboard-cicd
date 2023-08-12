@@ -3,13 +3,16 @@
   inputs:
     host:
       description: 域名
-      default: true
+      required: true
     username:
       description: 用户名
-      default: true
+      required: true
     access-key:
       description: 访问KEY
-      default: true
+      required: true
+    cluster:
+      description: 集群
+      required: true
     namespace:
       description: 空间
       required: true
@@ -32,4 +35,4 @@
               -H "content-type: application/json" \
               -H "Cookie: KuboardUsername=${{ inputs.username }}; KuboardAccessKey=${{ inputs.access-key }}" \
               -d '{"kind":"deployments","namespace":"${{ inputs.namespace }}","name":"${{ inputs.app-name }}","images":{"${{ inputs.image }}":"${{ inputs.image }}:${{ inputs.version }}"}}' \
-              "${{ inputs.host }}/kuboard-api/cluster/${{ inputs.namespace }}/kind/CICDApi/${{ inputs.username }}/resource/updateImageTag"
+              "${{ inputs.host }}/kuboard-api/cluster/${{ inputs.cluster }}/kind/CICDApi/${{ inputs.username }}/resource/updateImageTag"
